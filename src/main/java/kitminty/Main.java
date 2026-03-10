@@ -66,7 +66,6 @@ public class Main {
         glVertex2f(-0.5f,-0.5f);
         glVertex2f(0.5f,-0.5f);
         glEnd();
-        */
 
         glBegin(GL_LINES);
         glColor3f(0.3f, 1.0f, 1.0f);
@@ -75,7 +74,15 @@ public class Main {
             glVertex2f((float)lemx(i+0.01),(float)lemy(i+0.01));
         }
         glEnd();
+        */
 
+        glBegin(GL_LINES);
+        glColor3f(0.3f, 1.0f, 1.0f);
+        for(double i=0.0; i<Math.TAU; i += 0.01) {
+            glVertex2f((float)(0.8*Math.cos(i)),(float)(0.8*Math.sin(i)));
+            glVertex2f((float)(0.8*Math.cos(i+0.01)),(float)(0.8*Math.sin(i+0.01)));
+        }
+        glEnd();
     }
 
     public static double lemx(double t) {
