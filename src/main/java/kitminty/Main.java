@@ -41,8 +41,8 @@ public class Main {
     static void renderPolygon(long WindowID) {
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
         /*
-        (GetCursorPosX(WindowID)-WindowSizeX(WindowID)/2f)/(WindowSizeX(WindowID)/2f) //for getting the x value of mouse pos
-        -(GetCursorPosY(WindowID)-WindowSizeY(WindowID)/2f)/(WindowSizeY(WindowID)/2f) //for getting the y value of mouse pos
+        glfwGetMouseButton(WindowID, 0) //left click
+        glfwGetMouseButton(WindowID, 1) //right click
 
         glLineWidth(10.0f); //for GL_LINE_STRIP
         glPointSize(10.0f); //for GL_POINTS
@@ -86,19 +86,21 @@ public class Main {
         glPointSize(10.0f);
         glBegin(GL_POINTS);
         glColor3f(1.0f, 0.3f, 0.3f);
-        glVertex2f((float) (GetCursorPosX(WindowID)-WindowSizeX(WindowID)/2f)/(WindowSizeX(WindowID)/2f), (float) -(GetCursorPosY(WindowID)-WindowSizeY(WindowID)/2f)/(WindowSizeY(WindowID)/2f));
+        glVertex2f((float) GetCursorPosX(WindowID), (float) GetCursorPosY(WindowID));
         glEnd();
+
+        System.out.println(glfwGetMouseButton(WindowID, 0));
     }
 
     public static double GetCursorPosX(long WindowID) {
          DoubleBuffer posX = BufferUtils.createDoubleBuffer(1);
          glfwGetCursorPos(WindowID, posX, null);
-         return posX.get();
+         return (posX.get()-WindowSizeX(WindowID)/2f)/(WindowSizeX(WindowID)/2f);
     }
     public static double GetCursorPosY(long WindowID) {
         DoubleBuffer posY = BufferUtils.createDoubleBuffer(1);
         glfwGetCursorPos(WindowID, null, posY);
-        return posY.get();
+        return -(posY.get()-WindowSizeY(WindowID)/2f)/(WindowSizeY(WindowID)/2f);
     }
 
     public static int WindowSizeX(long WindowID) {
