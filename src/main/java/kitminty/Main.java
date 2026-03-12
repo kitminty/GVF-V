@@ -30,7 +30,6 @@ public class Main {
     void main() {
         glfwInit();
 
-
         glfwDefaultWindowHints(); // Loads GLFW's default window settings
         glfwWindowHint(GLFW_VISIBLE, GLFW_TRUE); // Sets window to be visible
         glfwWindowHint(GLFW_RESIZABLE, GLFW_TRUE); // Sets whether the window is resizable
@@ -44,16 +43,15 @@ public class Main {
         glfwShowWindow(id); // Shows the window
 
         while(!glfwWindowShouldClose(id)) {
-            renderPolygon(id);
+            RenderPolygon(id);
+            DragLogic(id);
 
             glfwSwapBuffers(id);
             glfwPollEvents();
-
-            DragLogic(id);
         }
     }
 
-    public void renderPolygon(long WindowID) {
+    public void RenderPolygon(long WindowID) {
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); //resets the frame every loop
 
         glfwSetScrollCallback(WindowID, new GLFWScrollCallback() { //finds zoom by finding scroll amount
