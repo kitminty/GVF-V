@@ -12,10 +12,10 @@ public class PointInstance {
     boolean PointIsClicked = false;
     boolean WasClicked = false;
     boolean PointShouldMove = false;
-    public void PointLogic(long WindowID, double zoom, double xoffset, double yoffset) {
-        glPointSize(10.0f);
+    public void PointLogic(long WindowID, double zoom, double xoffset, double yoffset, double red, double green, double blue, float size) {
+        glPointSize(size);
         glBegin(GL_POINTS);
-        glColor3f(1.0f, 0.3f, 0.3f);
+        glColor3d(red, green, blue);
         glVertex2d((PointPosX*zoom+xoffset), (PointPosY*zoom+yoffset));
         glEnd();
 

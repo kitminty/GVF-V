@@ -29,6 +29,7 @@ public class Main {
     static boolean ScreenShouldMove = true;
 
     PointInstance point1 = new PointInstance();
+    PointInstance point2 = new PointInstance();
 
     void main() {
         glfwInit();
@@ -72,7 +73,8 @@ public class Main {
         }
         glEnd();
 
-        point1.PointLogic(WindowID, ZoomCurve(Zoom), ScreenPosX, ScreenPosY);
+        point1.PointLogic(WindowID, ZoomCurve(Zoom), ScreenPosX, ScreenPosY, 1.0, 0.3, 0.3, 10);
+        point2.PointLogic(WindowID, ZoomCurve(Zoom), ScreenPosX, ScreenPosY, 0.3, 1.0, 0.3, 10);
     }
 
     public void ScreenDragLogic(long WindowID) {
