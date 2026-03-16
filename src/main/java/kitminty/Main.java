@@ -26,6 +26,9 @@ public class Main {
     double ScreenCurrentPosX = 0;
     double ScreenCurrentPosY = 0;
     boolean WasPressed = false;
+    static boolean ScreenShouldMove = true;
+
+    PointInstance point1 = new PointInstance();
 
     void main() {
         glfwInit();
@@ -43,8 +46,8 @@ public class Main {
         glfwShowWindow(id); // Shows the window
 
         while(!glfwWindowShouldClose(id)) {
-            RenderLoop(id);
             ScreenDragLogic(id);
+            RenderLoop(id);
 
             glfwSwapBuffers(id);
             glfwPollEvents();
@@ -64,10 +67,12 @@ public class Main {
         glBegin(GL_LINES);
         glColor3f(0.3f, 1.0f, 1.0f);
         for(double i=0.0; i<Math.TAU; i += 0.01) {
-            glVertex2d(lemx(i,ZoomCurve(Zoom), ScreenPosX), lemy(i,ZoomCurve(Zoom), ScreenPosY));
-            glVertex2d(lemx(i+0.01,ZoomCurve(Zoom), ScreenPosX), lemy(i+0.01,ZoomCurve(Zoom), ScreenPosY));
+            glVertex2d(lemx(i, ZoomCurve(Zoom), ScreenPosX), lemy(i,ZoomCurve(Zoom), ScreenPosY));
+            glVertex2d(lemx(i+0.01, ZoomCurve(Zoom), ScreenPosX), lemy(i+0.01,ZoomCurve(Zoom), ScreenPosY));
         }
         glEnd();
+
+        point1.PointLogic(WindowID, ZoomCurve(Zoom), ScreenPosX, ScreenPosY);
     }
 
     public void ScreenDragLogic(long WindowID) {
@@ -80,8 +85,7 @@ public class Main {
         MousePosX = GetCursorPosX(WindowID);
         MousePosY = GetCursorPosY(WindowID);
 
-
-        if (glfwGetMouseButton(WindowID, 0) == GLFW_PRESS) {
+        if (glfwGetMouseButton(WindowID, 0) == GLFW_PRESS && ScreenShouldMove) {
             ScreenPosX = (MousePosX-MouseInstPosX)+ScreenCurrentPosX;
             ScreenPosY = (MousePosY-MouseInstPosY)+ScreenCurrentPosY;
         } else {
