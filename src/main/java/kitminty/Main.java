@@ -28,7 +28,7 @@ public class Main {
     double ScreenCurrentPosY = 0;
     boolean WasPressed = false;
     static boolean ScreenShouldMove = true;
-    int NumPoints = 4;
+    int NumPoints = 12;
 
     ArrayList<PointInstance> Points = new ArrayList<>();
 
@@ -72,8 +72,8 @@ public class Main {
         glBegin(GL_LINES);
         glColor3f(0.3f, 1.0f, 1.0f);
         for(double i=0; i<1; i += 0.01) {
-            glVertex2d(RecursiveBezierX(Points, NumPoints, 1, i, ZoomCurve(Zoom), ScreenPosX), RecursiveBezierY(Points, NumPoints, 1, i, ZoomCurve(Zoom), ScreenPosY));
-            glVertex2d(RecursiveBezierX(Points, NumPoints, 1, i+0.01, ZoomCurve(Zoom), ScreenPosX), RecursiveBezierY(Points, NumPoints, 1, i+0.01, ZoomCurve(Zoom), ScreenPosY));
+            glVertex2d(ZoomCurve(Zoom)*RecursiveBezierX(Points, NumPoints, 1, i)+ScreenPosX, ZoomCurve(Zoom)*RecursiveBezierY(Points, NumPoints, 1, i)+ScreenPosY);
+            glVertex2d(ZoomCurve(Zoom)*RecursiveBezierX(Points, NumPoints, 1, i+0.01)+ScreenPosX, ZoomCurve(Zoom)*RecursiveBezierY(Points, NumPoints, 1, i+0.01)+ScreenPosY);
         }
         glEnd();
 
@@ -81,6 +81,14 @@ public class Main {
         Points.get(2).PointLogic(WindowID, ZoomCurve(Zoom), ScreenPosX, ScreenPosY, 0.3, 1.0, 0.3, 10);
         Points.get(3).PointLogic(WindowID, ZoomCurve(Zoom), ScreenPosX, ScreenPosY, 0.3, 0.3, 1.0, 10);
         Points.get(4).PointLogic(WindowID, ZoomCurve(Zoom), ScreenPosX, ScreenPosY, 1.0, 1.0, 1.0, 10);
+        Points.get(5).PointLogic(WindowID, ZoomCurve(Zoom), ScreenPosX, ScreenPosY, 1.0, 0.3, 0.3, 10);
+        Points.get(6).PointLogic(WindowID, ZoomCurve(Zoom), ScreenPosX, ScreenPosY, 0.3, 1.0, 0.3, 10);
+        Points.get(7).PointLogic(WindowID, ZoomCurve(Zoom), ScreenPosX, ScreenPosY, 0.3, 0.3, 1.0, 10);
+        Points.get(8).PointLogic(WindowID, ZoomCurve(Zoom), ScreenPosX, ScreenPosY, 1.0, 1.0, 1.0, 10);
+        Points.get(9).PointLogic(WindowID, ZoomCurve(Zoom), ScreenPosX, ScreenPosY, 1.0, 0.3, 0.3, 10);
+        Points.get(10).PointLogic(WindowID, ZoomCurve(Zoom), ScreenPosX, ScreenPosY, 0.3, 1.0, 0.3, 10);
+        Points.get(11).PointLogic(WindowID, ZoomCurve(Zoom), ScreenPosX, ScreenPosY, 0.3, 0.3, 1.0, 10);
+        Points.get(12).PointLogic(WindowID, ZoomCurve(Zoom), ScreenPosX, ScreenPosY, 1.0, 1.0, 1.0, 10);
     }
 
     public void ScreenDragLogic(long WindowID) {
@@ -138,27 +146,19 @@ public class Main {
     public double LerpY(double ay, double by, double t) {
         return ay+(by-ay)*t;
     }
-//Half Gaunt was here
-    public double RecursiveBezierX(ArrayList<PointInstance> pointlist, int num, int index, double time, double zoom, double xoffset) {
+    //Half Gaunt was here
+    public double RecursiveBezierX(ArrayList<PointInstance> pointlist, int num, int index, double time) {
         if (num == 1) {
             return pointlist.get(index).PointPosX;
         } else {
-            return LerpX(RecursiveBezierX(pointlist, num-1, index, time, zoom, xoffset),RecursiveBezierX(pointlist, num-1, index+1, time, zoom, xoffset),time);
+            return LerpX(RecursiveBezierX(pointlist, num-1, index, time), RecursiveBezierX(pointlist, num-1, index+1, time), time);
         }
     }
-    public double RecursiveBezierY(ArrayList<PointInstance> pointlist, int num, int index, double time, double zoom, double yoffset) {
+    public double RecursiveBezierY(ArrayList<PointInstance> pointlist, int num, int index, double time) {
         if (num == 1) {
             return pointlist.get(index).PointPosY;
         } else {
-            return LerpY(RecursiveBezierY(pointlist, num-1, index, time, zoom, yoffset),RecursiveBezierY(pointlist, num-1, index+1, time, zoom, yoffset),time);
+            return LerpY(RecursiveBezierY(pointlist, num-1, index, time), RecursiveBezierY(pointlist, num-1, index+1, time), time);
         }
     }
-    /*
-    public double lemx(double time, double zoom, double xoffset) {
-        return zoom*((2*Math.cos(time))/(3-Math.cos(2*time)))+xoffset;
-    }
-    public double lemy(double time, double zoom, double yoffset) {
-        return zoom*((Math.sin(2*time))/(3-Math.cos(2*time)))+yoffset;
-    }
-     */
 }
